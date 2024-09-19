@@ -75,7 +75,7 @@ androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version
 material = { group = "com.google.android.material", name = "material", version.ref = "material" }
 engage-core = { group = "com.google.android.engage", name = "engage-core", version.ref = "engageCore" }
 
-navigation-compose = { module = "androidx.navigation:navigation-compose", version = "2.8.0" }
+navigation-compose = { module = "androidx.navigation:navigation-compose", version = "2.8.1" }
 kotlinx-serialization = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version = "1.6.3" }
 
 #exoplayer with media 3

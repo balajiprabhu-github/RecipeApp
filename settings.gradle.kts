@@ -19,7 +19,7 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "Receipes"
+rootProject.name = "Recipes"
 include(":app")
 include(":common")
 include(":mediaPlayer")

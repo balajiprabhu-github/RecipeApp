@@ -1,6 +1,10 @@
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.kotlinx.serialization)
+    id("kotlin-parcelize")
+    alias(libs.plugins.dagger)
+    id("kotlin-kapt")
 }
 
 android {
@@ -30,9 +34,25 @@ android {
     kotlinOptions {
         jvmTarget = "1.8"
     }
+    buildFeatures {
+        compose = true
+    }
+    composeOptions {
+        kotlinCompilerExtensionVersion = "1.5.1"
+    }
 }
 
 dependencies {
+
+    implementation(project(":feature:search:domain"))
+    implementation(project(":common"))
+
+    implementation(libs.dagger.hilt)
+    kapt(libs.dagger.kapt)
+
+    implementation(libs.navigation.compose)
+    implementation(libs.kotlinx.serialization)
+    implementation(libs.lifecycle.viewmodel)
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
