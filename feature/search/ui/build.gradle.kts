@@ -48,7 +48,12 @@ dependencies {
     implementation(project(":common"))
 
     implementation(libs.dagger.hilt)
+    implementation(libs.hilt.compose.navigation)
+    implementation(libs.androidx.material3.android)
     kapt(libs.dagger.kapt)
+
+    implementation(libs.coil.compose)
+
 
     implementation(libs.navigation.compose)
     implementation(libs.kotlinx.serialization)

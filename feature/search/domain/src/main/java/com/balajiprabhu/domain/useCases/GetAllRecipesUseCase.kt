@@ -9,7 +9,9 @@ import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 import javax.inject.Inject
 
-class GetAllRecipesUseCase @Inject constructor(private val searchRepository: SearchRepository) {
+class GetAllRecipesUseCase @Inject constructor(
+    private val searchRepository: SearchRepository
+) {
     operator fun invoke(q: String) = flow<NetworkResult<List<Recipe>>> {
         emit(NetworkResult.Loading())
         val response = searchRepository.getRecipes(q)

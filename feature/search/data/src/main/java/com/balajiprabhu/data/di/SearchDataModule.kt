@@ -2,6 +2,8 @@ package com.balajiprabhu.data.di
 
 import com.balajiprabhu.data.remote.SearchService
 import com.balajiprabhu.data.repository.SearchRepositoryImpl
+import com.balajiprabhu.domain.repository.SearchRepository
+import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -31,6 +33,6 @@ object SearchDataModule {
     }
 
     @Provides
-    fun provideSearchRepository(searchService: SearchService) = SearchRepositoryImpl(searchService)
+    fun provideSearchRepository(searchService: SearchService) : SearchRepository = SearchRepositoryImpl(searchService)
 
 }

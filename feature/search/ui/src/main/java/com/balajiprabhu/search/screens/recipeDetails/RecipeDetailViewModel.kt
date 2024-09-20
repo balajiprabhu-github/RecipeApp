@@ -1,21 +1,27 @@
 package com.balajiprabhu.search.screens.recipeDetails
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.balajiprabhu.common.utils.NetworkResult
 import com.balajiprabhu.common.utils.UiText
 import com.balajiprabhu.domain.model.RecipeDetails
 import com.balajiprabhu.domain.useCases.GetRecipeDetailsUseCase
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.update
 import javax.inject.Inject
 
-class RecipeDetailViewModel @Inject constructor(val getRecipeDetailsUseCase: GetRecipeDetailsUseCase) : ViewModel() {
+@HiltViewModel
+class RecipeDetailViewModel @Inject constructor(
+    private val getRecipeDetailsUseCase: GetRecipeDetailsUseCase
+) : ViewModel() {
 
     private val _uiState = MutableStateFlow(RecipeDetailsWrapper.UiState())
-    val uiState: StateFlow<RecipeDetailsWrapper.UiState> = _uiState.asStateFlow()
+    val uiState: StateFlow<RecipeDetailsWrapper.UiState> get() = _uiState.asStateFlow()
 
     fun onEvent(event: RecipeDetailsWrapper.Event) {
         when (event) {
@@ -25,8 +31,8 @@ class RecipeDetailViewModel @Inject constructor(val getRecipeDetailsUseCase: Get
         }
     }
 
-    private fun getRecipeDetails(id: String) {
-        getRecipeDetailsUseCase(id)
+    private fun getRecipeDetails(id: String) =
+        getRecipeDetailsUseCase.invoke(id)
             .onEach { result ->
                 when (result) {
                     is NetworkResult.Loading -> {
@@ -51,23 +57,18 @@ class RecipeDetailViewModel @Inject constructor(val getRecipeDetailsUseCase: Get
                         }
                     }
                 }
-            }
-    }
+            }.launchIn(viewModelScope)
+}
 
-    object RecipeDetailsWrapper {
+object RecipeDetailsWrapper {
 
-        data class UiState(
-            val isLoading: Boolean = false,
-            val recipeDetails: RecipeDetails? = null,
-            val error: UiText = UiText.Idle
-        )
+    data class UiState(
+        val isLoading: Boolean = false,
+        val recipeDetails: RecipeDetails? = null,
+        val error: UiText = UiText.Idle
+    )
 
-        sealed interface Navigation {
-            data object None : Navigation
-        }
-
-        sealed interface Event {
-            data class FetchRecipeDetails(val id: String) : Event
-        }
+    sealed interface Event {
+        data class FetchRecipeDetails(val id: String) : Event
     }
 }

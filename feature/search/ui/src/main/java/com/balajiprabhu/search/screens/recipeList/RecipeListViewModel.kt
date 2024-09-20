@@ -1,19 +1,26 @@
 package com.balajiprabhu.search.screens.recipeList
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewModelScope
 import com.balajiprabhu.common.utils.NetworkResult
 import com.balajiprabhu.common.utils.UiText
 import com.balajiprabhu.domain.model.Recipe
 import com.balajiprabhu.domain.useCases.GetAllRecipesUseCase
+import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+@HiltViewModel
 class RecipeListViewModel @Inject constructor(
     private val getAllRecipesUseCase: GetAllRecipesUseCase
 ) : ViewModel() {
@@ -21,10 +28,18 @@ class RecipeListViewModel @Inject constructor(
     private val _uiState = MutableStateFlow(RecipeList.UiState())
     val uiState: StateFlow<RecipeList.UiState> = _uiState.asStateFlow()
 
+    private val _navigation = Channel<RecipeList.Navigation>()
+    val navigation: Flow<RecipeList.Navigation> = _navigation.receiveAsFlow()
+
     fun onEvent(event: RecipeList.Event) {
         when(event) {
             is RecipeList.Event.Search -> {
                 search(event.q)
+            }
+            is RecipeList.Event.NavigateToRecipeDetails -> {
+                viewModelScope.launch {
+                    _navigation.send(RecipeList.Navigation.RecipeDetails(event.id))
+                }
             }
             is RecipeList.Event.None -> {}
         }
@@ -73,6 +88,7 @@ object RecipeList {
 
     sealed interface Event {
         data class Search(val q: String) : Event
+        data class NavigateToRecipeDetails(val id: String) : Event
         data object None : Event
     }
 }
