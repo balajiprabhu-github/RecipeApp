@@ -12,7 +12,7 @@ class GetRecipeDetailsUseCase @Inject constructor(private val searchRepository: 
         emit(NetworkResult.Loading())
         val response = searchRepository.getRecipeDetails(id)
         if (response.isSuccess) {
-           emit(NetworkResult.Success(data = response.getOrThrow()))
+            emit(NetworkResult.Success(data = response.getOrThrow()))
         } else {
             emit(NetworkResult.Error(error = response.exceptionOrNull()?.message))
         }
