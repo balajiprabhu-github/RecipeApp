@@ -2,7 +2,7 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.dagger)
-    id("kotlin-kapt")
+    id("com.google.devtools.ksp")
 }
 
 android {
@@ -62,7 +62,10 @@ dependencies {
     implementation(libs.navigation.compose)
     implementation(libs.kotlinx.serialization)
     implementation(libs.dagger.hilt)
-    kapt(libs.dagger.kapt)
+    ksp(libs.dagger.ksp)
+
+    implementation(libs.room.ktx)
+    ksp(libs.room.compiler)
 
     implementation(libs.accompanist.systemuicontroller)
     implementation(libs.androidx.core.ktx)

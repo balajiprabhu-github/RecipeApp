@@ -42,6 +42,11 @@ class RecipeListViewModel @Inject constructor(
                 }
             }
             is RecipeList.Event.None -> {}
+            is RecipeList.Event.NavigateToFavorite -> {
+                viewModelScope.launch {
+                    _navigation.send(RecipeList.Navigation.Favorite)
+                }
+            }
         }
     }
 
@@ -83,12 +88,14 @@ object RecipeList {
 
     sealed interface Navigation {
         data class RecipeDetails(val id: String) : Navigation
+        data object Favorite : Navigation
         data object None : Navigation
     }
 
     sealed interface Event {
         data class Search(val q: String) : Event
         data class NavigateToRecipeDetails(val id: String) : Event
+        data object NavigateToFavorite : Event
         data object None : Event
     }
 }

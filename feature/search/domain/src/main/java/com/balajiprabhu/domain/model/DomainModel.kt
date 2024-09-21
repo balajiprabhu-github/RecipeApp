@@ -1,6 +1,12 @@
 package com.balajiprabhu.domain.model
 
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+
+
+@Entity(tableName = "recipe")
 data class Recipe(
+    @PrimaryKey(autoGenerate = false)
     val id: String,
     val area: String,
     val meal: String,

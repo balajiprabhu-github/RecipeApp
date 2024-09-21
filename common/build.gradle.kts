@@ -4,7 +4,7 @@ plugins {
     alias(libs.plugins.kotlinx.serialization)
     id("kotlin-parcelize")
     alias(libs.plugins.dagger)
-    id("kotlin-kapt")
+    id("com.google.devtools.ksp")
 }
 
 android {
@@ -44,7 +44,7 @@ dependencies {
 
     // dagger
     implementation(libs.dagger.hilt)
-    kapt(libs.dagger.kapt)
+    ksp(libs.dagger.ksp)
 
     //navigation
     implementation(libs.navigation.compose)

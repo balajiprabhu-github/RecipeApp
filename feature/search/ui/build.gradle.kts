@@ -4,7 +4,7 @@ plugins {
     alias(libs.plugins.kotlinx.serialization)
     id("kotlin-parcelize")
     alias(libs.plugins.dagger)
-    id("kotlin-kapt")
+    id("com.google.devtools.ksp")
 }
 
 android {
@@ -50,10 +50,11 @@ dependencies {
     implementation(libs.dagger.hilt)
     implementation(libs.hilt.compose.navigation)
     implementation(libs.androidx.material3.android)
-    kapt(libs.dagger.kapt)
+    implementation(libs.room)
+    implementation(project(":feature:search:data"))
+    ksp(libs.dagger.ksp)
 
     implementation(libs.coil.compose)
-
 
     implementation(libs.navigation.compose)
     implementation(libs.kotlinx.serialization)

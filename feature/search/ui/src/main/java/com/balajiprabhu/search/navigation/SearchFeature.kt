@@ -10,6 +10,9 @@ import androidx.navigation.toRoute
 import com.balajiprabhu.common.navigation.Destination
 import com.balajiprabhu.common.navigation.Feature
 import com.balajiprabhu.common.navigation.NavigationSubGraphRoutes
+import com.balajiprabhu.search.screens.favorite.FavoriteScreen
+import com.balajiprabhu.search.screens.favorite.FavoriteViewModel
+import com.balajiprabhu.search.screens.favorite.FavoriteWrapper
 import com.balajiprabhu.search.screens.recipeDetails.RecipeDetailViewModel
 import com.balajiprabhu.search.screens.recipeDetails.RecipeDetailsScreen
 import com.balajiprabhu.search.screens.recipeDetails.RecipeDetailsWrapper
@@ -44,7 +47,33 @@ class SearchFeatureImpl : SearchFeature {
                         viewModel.onEvent(RecipeDetailsWrapper.Event.FetchRecipeDetails(it))
                     }
                 }
-                RecipeDetailsScreen(viewModel = viewModel)
+                RecipeDetailsScreen(viewModel = viewModel, onBackClick = {
+                    viewModel.onEvent(
+                        RecipeDetailsWrapper.Event.OnBackClick(
+                            RecipeDetailsWrapper.Navigation.PopBackStack
+                        )
+                    )
+                }, onDeleteClick = {
+                    viewModel.onEvent(RecipeDetailsWrapper.Event.DeleteRecipe(it))
+                }, onFavClick = {
+                    viewModel.onEvent(RecipeDetailsWrapper.Event.InsertRecipe(it))
+                }, navHostController = navController
+                )
+            }
+
+            composable<Destination.Favorite> {
+                val viewModel = hiltViewModel<FavoriteViewModel>()
+
+                FavoriteScreen(
+                    viewModel = viewModel,
+                    onBackClick = {
+                        viewModel.onEvent(FavoriteWrapper.Event.OnBackClick)
+                    },
+                    onRecipeClick = {
+                        viewModel.onEvent(FavoriteWrapper.Event.NavigateRecipeDetail(it))
+                    },
+                    navHostController = navController
+                )
             }
         }
     }
