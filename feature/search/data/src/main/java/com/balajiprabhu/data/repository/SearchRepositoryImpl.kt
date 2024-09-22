@@ -56,7 +56,7 @@ class SearchRepositoryImpl(
         recipeDao.deleteRecipe(recipe)
     }
 
-    override suspend fun getSavedRecipes(): Flow<List<Recipe>> {
+    override fun getSavedRecipes(): Flow<List<Recipe>> {
         return recipeDao.getAllRecipes()
     }
 }

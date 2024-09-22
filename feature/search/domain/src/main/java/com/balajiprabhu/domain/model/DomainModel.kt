@@ -2,9 +2,11 @@ package com.balajiprabhu.domain.model
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import androidx.room.TypeConverters
 
 
 @Entity(tableName = "recipe")
+@TypeConverters(IngredientsConverter::class)
 data class Recipe(
     @PrimaryKey(autoGenerate = false)
     val id: String,

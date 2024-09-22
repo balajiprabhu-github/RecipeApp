@@ -9,5 +9,5 @@ interface SearchRepository {
     suspend fun getRecipeDetails(id: String) : Result<RecipeDetails>
     suspend fun insertRecipe(recipe: Recipe)
     suspend fun deleteRecipe(recipe: Recipe)
-    suspend fun getSavedRecipes() : Flow<List<Recipe>>
+    fun getSavedRecipes() : Flow<List<Recipe>>
 }

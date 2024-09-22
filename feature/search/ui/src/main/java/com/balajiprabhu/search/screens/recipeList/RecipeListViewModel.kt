@@ -69,7 +69,7 @@ class RecipeListViewModel @Inject constructor(
                         _uiState.update {
                             RecipeList.UiState(
                                 error = UiText.RemoteString(
-                                    result.error ?: "Something went wrong"
+                                     "Something went wrong"
                                 )
                             )
                         }
