@@ -48,7 +48,6 @@ import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
 import com.balajiprabhu.common.navigation.Destination
 import com.balajiprabhu.common.utils.UiText
-import com.balajiprabhu.search.screens.favorite.FavoriteWrapper
 import kotlinx.coroutines.flow.collectLatest
 
 @OptIn(ExperimentalLayoutApi::class)

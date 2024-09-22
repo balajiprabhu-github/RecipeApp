@@ -1,6 +1,7 @@
 package com.balajiprabhu.search.navigation
 
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
@@ -13,6 +14,7 @@ import com.balajiprabhu.common.navigation.NavigationSubGraphRoutes
 import com.balajiprabhu.search.screens.favorite.FavoriteScreen
 import com.balajiprabhu.search.screens.favorite.FavoriteViewModel
 import com.balajiprabhu.search.screens.favorite.FavoriteWrapper
+import com.balajiprabhu.search.screens.mediaplayer.MediaPlayerScreen
 import com.balajiprabhu.search.screens.recipeDetails.RecipeDetailViewModel
 import com.balajiprabhu.search.screens.recipeDetails.RecipeDetailsScreen
 import com.balajiprabhu.search.screens.recipeDetails.RecipeDetailsWrapper
@@ -74,6 +76,13 @@ class SearchFeatureImpl : SearchFeature {
                     },
                     navHostController = navController
                 )
+            }
+
+            composable<Destination.MediaPlayer> { entry ->
+                val videoId = entry.toRoute<Destination.MediaPlayer>().videoId
+                MediaPlayerScreen(
+                    modifier = Modifier,
+                    videoId = videoId)
             }
         }
     }

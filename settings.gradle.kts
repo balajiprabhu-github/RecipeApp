@@ -22,7 +22,6 @@ dependencyResolutionManagement {
 rootProject.name = "Recipes"
 include(":app")
 include(":common")
-include(":mediaPlayer")
 include(":feature:search:ui")
 include(":feature:search:domain")
 include(":feature:search:data")

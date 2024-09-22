@@ -53,38 +53,44 @@ class RecipeDetailViewModel @Inject constructor(
             is RecipeDetailsWrapper.Event.InsertRecipe -> {
                 insertRecipeUseCase(event.recipe.toRecipe()).launchIn(viewModelScope)
             }
+
+            is RecipeDetailsWrapper.Event.NavigateToMediaPlayer -> {
+                viewModelScope.launch {
+                    _navigation.send(
+                        RecipeDetailsWrapper.Navigation.NavigateToMediaPlayer(videoId = event.videoId)
+                    )
+                }
+            }
         }
     }
 
-    private fun getRecipeDetails(id: String) =
-        getRecipeDetailsUseCase.invoke(id)
-            .onEach { result ->
-                when (result) {
-                    is NetworkResult.Loading -> {
-                        _uiState.update {
-                            RecipeDetailsWrapper.UiState(isLoading = true)
-                        }
-                    }
-
-                    is NetworkResult.Success -> {
-                        _uiState.update {
-                            RecipeDetailsWrapper.UiState(recipeDetails = result.data)
-                        }
-                    }
-
-                    is NetworkResult.Error -> {
-                        _uiState.update {
-                            RecipeDetailsWrapper.UiState(
-                                error = UiText.RemoteString(
-                                    result.error ?: "Something went wrong"
-                                )
-                            )
-                        }
+    private fun getRecipeDetails(id: String) = getRecipeDetailsUseCase.invoke(id).onEach { result ->
+            when (result) {
+                is NetworkResult.Loading -> {
+                    _uiState.update {
+                        RecipeDetailsWrapper.UiState(isLoading = true)
                     }
                 }
-            }.launchIn(viewModelScope)
 
-    private fun RecipeDetails.toRecipe() : Recipe {
+                is NetworkResult.Success -> {
+                    _uiState.update {
+                        RecipeDetailsWrapper.UiState(recipeDetails = result.data)
+                    }
+                }
+
+                is NetworkResult.Error -> {
+                    _uiState.update {
+                        RecipeDetailsWrapper.UiState(
+                            error = UiText.RemoteString(
+                                result.error ?: "Something went wrong"
+                            )
+                        )
+                    }
+                }
+            }
+        }.launchIn(viewModelScope)
+
+    private fun RecipeDetails.toRecipe(): Recipe {
         return Recipe(
             id = id,
             meal = meal,
@@ -108,6 +114,7 @@ object RecipeDetailsWrapper {
 
     sealed interface Navigation {
         data object PopBackStack : Navigation
+        data class NavigateToMediaPlayer(val videoId: String) : Navigation
     }
 
     sealed interface Event {
@@ -115,5 +122,6 @@ object RecipeDetailsWrapper {
         data class InsertRecipe(val recipe: RecipeDetails) : Event
         data class DeleteRecipe(val recipe: RecipeDetails) : Event
         data class OnBackClick(val navigation: Navigation) : Event
+        data class NavigateToMediaPlayer(val videoId: String) : Event
     }
 }

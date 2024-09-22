@@ -1,6 +1,7 @@
 package com.balajiprabhu.search.screens.recipeDetails
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -43,6 +44,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.flowWithLifecycle
 import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
+import com.balajiprabhu.common.navigation.Destination
 import com.balajiprabhu.common.utils.UiText
 import com.balajiprabhu.domain.model.RecipeDetails
 import kotlinx.coroutines.flow.collectLatest
@@ -69,6 +71,11 @@ fun RecipeDetailsScreen(
                 when (navigation) {
                     RecipeDetailsWrapper.Navigation.PopBackStack -> {
                         navHostController.popBackStack()
+                    }
+
+                    is RecipeDetailsWrapper.Navigation.NavigateToMediaPlayer -> {
+                        val videoId = navigation.videoId.split("v=").last()
+                        navHostController.navigate(Destination.MediaPlayer(videoId = videoId))
                     }
                 }
             }
@@ -205,12 +212,19 @@ fun RecipeDetailsScreen(
                         }
                     }
 
+                    if (model.youtube.isNotEmpty().and(model.youtube.isNotBlank())) {
+                        Text(text = "Watch YouTube Video",
+                            style = MaterialTheme.typography.bodySmall,
+                            textAlign = TextAlign.Center,
+                            modifier = Modifier.clickable {
+                                viewModel.onEvent(
+                                    RecipeDetailsWrapper.Event.NavigateToMediaPlayer(
+                                        model.youtube
+                                    )
+                                )
+                            })
+                    }
 
-                    Text(
-                        text = "Watch YouTube Video",
-                        style = MaterialTheme.typography.bodySmall,
-                        textAlign = TextAlign.Center
-                    )
 
                     Spacer(modifier = Modifier.height(32.dp))
                 }

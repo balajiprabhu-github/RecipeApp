@@ -16,7 +16,6 @@
             <option value="$PROJECT_DIR$/feature/search/data" />
             <option value="$PROJECT_DIR$/feature/search/domain" />
             <option value="$PROJECT_DIR$/feature/search/ui" />
-            <option value="$PROJECT_DIR$/mediaPlayer" />
           </set>
         </option>
         <option name="resolveExternalAnnotations" value="false" />

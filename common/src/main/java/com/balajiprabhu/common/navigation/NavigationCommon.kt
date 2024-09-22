@@ -16,4 +16,7 @@ sealed class Destination {
 
     @Serializable
     data object Favorite : Destination()
+
+    @Serializable
+    data class MediaPlayer(val videoId: String) : Destination()
 }

@@ -2,6 +2,8 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.dagger)
+    alias(libs.plugins.kotlinx.serialization)
+    id("kotlin-parcelize")
     id("com.google.devtools.ksp")
 }
 
@@ -57,7 +59,6 @@ dependencies {
     implementation(project(":feature:search:ui"))
     implementation(project(":feature:search:domain"))
     implementation(project(":feature:search:data"))
-    implementation(project(":mediaPlayer"))
 
     implementation(libs.navigation.compose)
     implementation(libs.kotlinx.serialization)

@@ -47,6 +47,7 @@ dependencies {
     implementation(project(":feature:search:domain"))
     implementation(project(":common"))
 
+    implementation(libs.youtube.video.player)
     implementation(libs.dagger.hilt)
     implementation(libs.hilt.compose.navigation)
     implementation(libs.androidx.material3.android)
