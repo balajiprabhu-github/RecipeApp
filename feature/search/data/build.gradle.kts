@@ -47,10 +47,14 @@ dependencies {
     implementation(libs.retrofit.gson.convertor)
 
     implementation(libs.dagger.hilt)
+    testImplementation(libs.junit.junit)
     ksp(libs.dagger.ksp)
 
     implementation(libs.room.ktx)
     ksp(libs.room.compiler)
+
+    testImplementation(libs.test.coroutines)
+    testImplementation(libs.mockito)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
